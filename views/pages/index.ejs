@@ -1,0 +1,83 @@
+
+<% include header %>
+ 
+<form action="/" method="post" class="ui form">
+    <div class="field">
+        <label for="message">Enter the link here :</label>
+        <input type="text" name="message" id="message"></input>
+    </div>
+    <button type="submit" class="ui blue labeled submit icon button">
+        <i class="icon edit"></i>Show Opportunities
+    </button>
+
+</form>
+ 
+<div id="map"></div>
+
+<script>
+    let markers = JSON.parse('<%- markers %>');
+
+    function initMap(){
+      // Map options
+      var options = {
+        zoom:2,
+        center:{lat:0.0,lng:0.0}
+      }
+  
+      // New map
+      var map = new google.maps.Map(document.getElementById('map'), options);
+  
+      // Loop through markers
+      
+      for(var i = 0;i < markers.length;i++){
+        // Add marker
+        addMarker(markers[i]);
+      }
+  
+      // Add Marker Function
+      function addMarker(props){
+        // we add a small random number to the coordinates to avoid superposition of markers that are originally in the same place
+        var coords = {lat: props.coords.lat + Math.random()/50, lng: props.coords.lng + Math.random()/50}
+        var marker = new google.maps.Marker({
+          position:coords,
+          map:map
+        });
+  
+        // Check for customicon
+        if(props.iconImage){
+          // Set icon image
+          marker.setIcon(props.iconImage);
+        }
+  
+        // Check content
+        if(props.content){
+          var infoWindow = new google.maps.InfoWindow({
+            content:props.content
+          });
+          
+          // open the info window on mouse hover
+          marker.addListener('mouseover', function(){
+            infoWindow.open(map, marker);
+          });
+
+          //close the info window
+          marker.addListener('mouseout', function(){
+            infoWindow.close();
+          });
+        }
+        marker.addListener('click', function(){
+          window.open(props.link);
+        });
+      } 
+    }
+</script>
+
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEvzZu48fnFT9bvcXNEJXEO_SRV_cwBp4&callback=initMap">
+</script>
+
+<div id="video">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/y_RESWAAQZ0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<% include footer %> 
+
