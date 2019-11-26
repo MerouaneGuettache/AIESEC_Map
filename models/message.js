@@ -11,7 +11,7 @@ class Message {
          
           // Optional depending on the providers
           httpAdapter: 'https', // Default
-          apiKey: 'AIzaSyCEvzZu48fnFT9bvcXNEJXEO_SRV_cwBp4', // for Mapquest, OpenCage, Google Premier
+          apiKey: 'API_Key', // for Mapquest, OpenCage, Google Premier
           formatter: null         // 'gpx', 'string', ...
         };
          
